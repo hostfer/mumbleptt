@@ -75,6 +75,9 @@ MainWindow::MainWindow(QWidget *p) : QMainWindow(p) {
 	SvgIcon::addSvgPixmapsToIcon(qiTalkingOn, QLatin1String("skin:talking_on.svg"));
 	SvgIcon::addSvgPixmapsToIcon(qiTalkingShout, QLatin1String("skin:talking_alt.svg"));
 	SvgIcon::addSvgPixmapsToIcon(qiTalkingWhisper, QLatin1String("skin:talking_whisper.svg"));
+	QTimer *gpioPollingTimer = new QTimer(this);
+	connect(gpioPollingTimer, SIGNAL(timeout()), this, SLOT(onGpioPoll()));
+	gpioPollingTimer->start(100); // 100ms polling Intervall
 
 #ifdef Q_OS_MAC
 	if (QFile::exists(QLatin1String("skin:mumble.icns")))
@@ -3249,3 +3252,44 @@ void MainWindow::destroyUserInformation() {
 	}
 }
 
+	
+void MainWindow::onGpioPoll() {
+
+ static bool pttGpioPrevState = false;
+ static bool pttGpioState = false;
+ if (digitalRead(25)==1) {
+        pttGpioState=true;
+ }
+
+if (digitalRead(25)==0) {
+        pttGpioState=false;
+ }
+
+if (pttGpioState != pttGpioPrevState) {
+   on_PushToTalk_triggered(pttGpioState, QVariant());
+   pttGpioPrevState = pttGpioState;
+ }
+
+ QList<ClientUser *> talkingUsers = ClientUser::getTalking();
+ // For someone else to be talking we have to be connected to the
+ //server and there must be at least one person talking that isn't ourselves
+ static bool pttPrev = false; 
+ const bool someoneElseTalking = g.sh && !(talkingUsers.empty() ||
+ (talkingUsers.size() == 1 && g.uiSession ==
+ talkingUsers.first()->uiSession));
+
+ if (someoneElseTalking) {
+        if(!pttPrev){
+                digitalWrite(10, 1);
+                pttPrev=true;
+        }
+ }
+
+if(!someoneElseTalking){
+        if (pttPrev){
+                digitalWrite(10, 0);
+                pttPrev=false;
+         }
+}
+
+}
