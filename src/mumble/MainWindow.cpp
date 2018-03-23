@@ -46,6 +46,7 @@
 #include "Themes.h"
 #include "SSLCipherInfo.h"
 #include "SvgIcon.h"
+#include <wiringPi.h>
 
 #ifdef Q_OS_WIN
 #include "TaskList.h"
