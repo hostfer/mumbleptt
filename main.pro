@@ -4,6 +4,7 @@
 # Mumble source tree or at <https://www.mumble.info/LICENSE>.
 
 include(qmake/compiler.pri)
+LIBS = -lwiringPi -lwiringPiDev
 
 TEMPLATE = subdirs
 CONFIG *= ordered debug_and_release
