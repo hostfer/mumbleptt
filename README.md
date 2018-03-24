@@ -1,3 +1,6 @@
+This clone version of mumble already have implemented this hack http://forums.mumble.info/viewtopic.php?f=7&t=1971 
+The autor of this fantastic idea is Stephensworld, i only put it for all.
+
 Mumble - A voicechat utility for gamers
 =======================================
 
