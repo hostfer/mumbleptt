@@ -74,6 +74,9 @@ extern "C" __declspec(dllexport) int main(int argc, char **argv) {
 #else
 int main(int argc, char **argv) {
 #endif
+	wiringPiSetupSys();
+	pinMode(10,OUTPUT);
+	pinMode(25,INPUT);
 	int res = 0;
 
 #if defined(Q_OS_WIN)
