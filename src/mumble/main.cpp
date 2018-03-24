@@ -39,6 +39,7 @@
 #include "UserLockFile.h"
 #include "License.h"
 #include "EnvUtils.h"
+#include <wiringPi.h>
 
 #if defined(USE_STATIC_QT_PLUGINS) && QT_VERSION < 0x050000
 Q_IMPORT_PLUGIN(qtaccessiblewidgets)
