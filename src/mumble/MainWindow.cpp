@@ -77,7 +77,7 @@ MainWindow::MainWindow(QWidget *p) : QMainWindow(p) {
 	SvgIcon::addSvgPixmapsToIcon(qiTalkingWhisper, QLatin1String("skin:talking_whisper.svg"));
 	QTimer *gpioPollingTimer = new QTimer(this);
 	connect(gpioPollingTimer, SIGNAL(timeout()), this, SLOT(onGpioPoll()));
-	gpioPollingTimer->start(100); // 100ms polling Intervall
+	gpioPollingTimer->start(50); // 100ms polling Intervall
 
 #ifdef Q_OS_MAC
 	if (QFile::exists(QLatin1String("skin:mumble.icns")))
